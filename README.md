@@ -1,3 +1,31 @@
+μPD777 is an emulator for the Epoch Cassette Vision, from Japan in 1981.
+
+It is written by 猫大名ねこ猫 (W88DodPECuThLOl) at https://github.com/W88DodPECuThLOl/PD777 .
+
+This fork adds a libretro interface to run in RetroArch or similar.
+
+ROM file handling is currently awkward, but gives some options that work.
+1. Supply a `.bin777` file to load; the core looks for a similarly-named `.ptn777` file in the same directory.
+2. If that fails, run the content compiled from core/rom.cpp (as in standalone emulator).
+3. Zip-files (bundling `.bin777` and `.ptn777`) are not yet supported, but could be later.
+4. There is not yet a suitable single-file format for the Cassette Vision.
+
+Most simple button and switch controls are working as in the standalone Windows and WASM builds.  Not yet working:
+1. Course selector not yet supported.
+2. Analog spinners not yet supported.
+3. Light gun not yet supported.
+
+Tested on:
+* Linux x86_64
+* Windows x86_64
+* macOS Apple Silicon
+* Raspberry Pi 64-bit
+* Raspberry Pi 32-bit
+
+Thanks again to W88DodPECuThLOl for this emulator!
+
+Upstream README.md follows:
+==========================
 # μPD777エミュレータ
 
 # これは何？
