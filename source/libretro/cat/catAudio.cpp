@@ -39,7 +39,7 @@ void CatAudio::addScore(u8 channel, u8 value, bool reverberatedSoundEffect) {
 
 void CatAudio::present() {
     // const len = outputs[0][0].length;
-    float masterVolume = 0.5; // 0.3;
+    float masterVolume = 10.0; // 0.3;  // TODO (mittonk): Adjustable?
     float v = 0.0;
     float value = 0.0;
     const u16 len = samplesPerSec / 60;

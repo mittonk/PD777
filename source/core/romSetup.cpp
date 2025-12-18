@@ -238,13 +238,6 @@ PD777::setupCode(const void* data, size_t dataSize)
     }
    
     for(auto& r : rom) { r = ~0; }
-    keyMapping.bitMap[0] = 0x40;            // B09 => K7
-    keyMapping.bitMap[1] = 0x20;            // B10 => K6
-    keyMapping.bitMap[2] = 0x10;            // B11 => K5
-    keyMapping.bitMap[3] = 0x08;            // B12 => K4
-    keyMapping.bitMap[4] = 0x04;            // B13 => K3
-    keyMapping.bitMap[5] = 0x02;            // B14 => K2
-    keyMapping.bitMap[6] = 0x01;            // B15 => K1
 
     if(isCodeRawOrder(data, dataSize)) {
         // 順番に並んだコード
@@ -259,6 +252,17 @@ PD777::setupCode(const void* data, size_t dataSize)
         // 未対応
         return false;
     }
+
+    // Set default wiring, only some games will adjust this.
+    // TODO (mittonk): Intentionally squashing anything loaded from bin777 v2
+    // files, this will need to be adjusted once those fields are populated...
+    keyMapping.bitMap[0] = 0x40;            // B09 => K7
+    keyMapping.bitMap[1] = 0x20;            // B10 => K6
+    keyMapping.bitMap[2] = 0x10;            // B11 => K5
+    keyMapping.bitMap[3] = 0x08;            // B12 => K4
+    keyMapping.bitMap[4] = 0x04;            // B13 => K3
+    keyMapping.bitMap[5] = 0x02;            // B14 => K2
+    keyMapping.bitMap[6] = 0x01;            // B15 => K1
 
     // 適当計算
     // @todo かっこいいのに変更すること！

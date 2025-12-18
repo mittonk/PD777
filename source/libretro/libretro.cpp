@@ -442,10 +442,10 @@ bool retro_load_game(const struct retro_game_info *info)
     }
 
     // Try to load a similarly-named pattern file.
-    std::string pattern_path = info->path;
-    std::string toReplace = "bin777";
-    std::string replaceWith = "ptn777";
-    std::size_t pos = pattern_path.find(toReplace);
+    std::string pattern_path(info->path);
+    const std::string toReplace = "bin777";
+    const std::string replaceWith = "ptn777";
+    const std::size_t pos = pattern_path.rfind(toReplace);
     if (pos != std::string::npos) { // Check if the substring was found
         pattern_path.replace(pos, toReplace.length(), replaceWith);
     }
