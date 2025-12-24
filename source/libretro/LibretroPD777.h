@@ -6,11 +6,9 @@
 
 class AnalogStatus {
    public:
-      static const auto NUM_CONTROLLERS = 1;
+      static const auto NUM_CONTROLLERS = 2;
       int32_t input_analog_left_x[NUM_CONTROLLERS];
       int32_t input_analog_left_y[NUM_CONTROLLERS];
-      int32_t input_analog_right_x[NUM_CONTROLLERS];
-      int32_t input_analog_right_y[NUM_CONTROLLERS];
 };
 
 /**

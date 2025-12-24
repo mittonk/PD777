@@ -81,7 +81,7 @@ LibretroPD777::isPD2(u8& value)
 bool
 LibretroPD777::isPD3(u8& value)
 {
-    padValue[2] = clamp(padValue[2] + float(analogStatus.input_analog_right_x[0]) / analogscale, KeyStatus::PAD_MIN_VALUE, KeyStatus::PAD_MAX_VALUE);
+    padValue[2] = clamp(padValue[2] + float(analogStatus.input_analog_left_x[1]) / analogscale, KeyStatus::PAD_MIN_VALUE, KeyStatus::PAD_MAX_VALUE);
     value = (u8)((u8)padValue[2] & 0x7F);
     return true;
 }
@@ -89,7 +89,7 @@ LibretroPD777::isPD3(u8& value)
 bool
 LibretroPD777::isPD4(u8& value)
 {
-    padValue[3] = clamp(padValue[3] + float(analogStatus.input_analog_right_y[0]) / analogscale, KeyStatus::PAD_MIN_VALUE, KeyStatus::PAD_MAX_VALUE);
+    padValue[3] = clamp(padValue[3] + float(analogStatus.input_analog_left_y[1]) / analogscale, KeyStatus::PAD_MIN_VALUE, KeyStatus::PAD_MAX_VALUE);
     value = (u8)((u8)padValue[3] & 0x7F);
     return true;
 }

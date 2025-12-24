@@ -278,49 +278,75 @@ static void update_input(void)
     KeyStatus *keyStatus = cpu->getKeyStatus();
     keyStatus->clear();
 
-    // TODO (mittonk): 2 controllers for 2-player games?
-    auto NUM_CONTROLLERS = 1;
+    // The Cassette Vision had a bunch of central controls, rather than
+    // per-player pads --- some games would asymmetrically assign most buttons
+    // to Player 2, for example.  The following mapping should allow playing
+    // pretty much all 1-player games with 1 pad, and all 2-player games with
+    // 2 pads.
+    auto NUM_CONTROLLERS = 2;
+    // Both pads get access to most of the simple buttons.
     unsigned pad = 0;
+    for (pad=0; pad<NUM_CONTROLLERS; pad++) {
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
+           keyStatus->setGameStartKey();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
+           keyStatus->setGameSelectKey();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R))
+           keyStatus->setAux();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
+           keyStatus->setPush1();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
+           keyStatus->setPush2();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
+           keyStatus->setPush3();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A))
+           keyStatus->setPush4();
 
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
-        keyStatus->setGameStartKey();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
-        keyStatus->setGameSelectKey();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
-        keyStatus->setPush1();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
-        keyStatus->setPush2();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
-        keyStatus->setPush3();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A))
-        keyStatus->setPush4();
+       // Up and Down do not exist on the actual device; they get remapped for convenience.
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
+           keyStatus->setUp();
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
+           keyStatus->setDown();
+       /*
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
+           keyStatus->setCourseSwitch(5);
+       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
+           keyStatus->setCourseSwitch(1);
+       */
+    }
 
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-        keyStatus->setLeverSwitch1Left();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-        keyStatus->setLeverSwitch1Right();
+    // TODO (mittonk): Course switch, maybe inc/dec via D-pad Up and D-pad Down
+    // as in standalone Windows version?  Or just cycle with L?
 
-    // Up and Down do not exist on the actual device; they get remapped for convenience.
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
-        keyStatus->setUp();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-        keyStatus->setDown();
-
-    // TODO (mittonk): Course switch, maybe inc/dec via L and R?
-    // TODO (mittonk): Lever switch 2
-    // TODO (mittonk): AUX switch
-
+    // First controller gets left two paddles, for 1-player analog games.  Also
+    // lever switch 1, heavily used in 1-player games and for player 1 of
+    // 2-player games.
+    pad = 0;
     cpu->analogStatus.input_analog_left_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
           RETRO_DEVICE_ID_ANALOG_X);
 
     cpu->analogStatus.input_analog_left_y[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
           RETRO_DEVICE_ID_ANALOG_Y);
 
-    cpu->analogStatus.input_analog_right_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT,
+    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
+        keyStatus->setLeverSwitch1Left();
+    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
+        keyStatus->setLeverSwitch1Right();
+
+    // Second controller gets right two paddles, for most 2-player analog games.
+    // Also lever switch 2.
+    pad = 1;
+    cpu->analogStatus.input_analog_left_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
           RETRO_DEVICE_ID_ANALOG_X);
 
-    cpu->analogStatus.input_analog_right_y[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_RIGHT,
+    cpu->analogStatus.input_analog_left_y[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
           RETRO_DEVICE_ID_ANALOG_Y);
+
+    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
+        keyStatus->setLeverSwitch2Left();
+    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
+        keyStatus->setLeverSwitch2Right();
+
 }
 
 
