@@ -38,6 +38,17 @@ class LibretroPD777 : public PD777 {
        *      @arg true:  更新されている
        *      @arg false: 更新されてない
        */
+
+	  /**
+	   * @brief コーススイッチ（1～5）
+	   */
+	  u8 courseSwitch = 3;
+	  u8 getCourseSwitch() const { return courseSwitch; }
+	  /**
+	   * @brief コーススイッチを設定する
+	   * @param[in]   courseSwitch    コーススイッチ（1～5）
+	   */
+	  void setCourseSwitch(const u8 courseSwitch) { this->courseSwitch = courseSwitch; }
    private:
       bool bVRAMDirty;
       /**

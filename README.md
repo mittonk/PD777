@@ -11,8 +11,7 @@ ROM file handling is currently awkward, but gives some options that work.
 4. There is not yet a suitable single-file format for the Cassette Vision.
 
 Most simple button and switch controls are working as in the standalone Windows and WASM builds.  Not yet working:
-1. Course selector not yet supported.
-2. Light gun not yet supported.
+1. Light gun not yet supported.
 
 Tested on:
 * Linux x86_64

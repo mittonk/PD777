@@ -277,6 +277,7 @@ static void update_input(void)
      */
     KeyStatus *keyStatus = cpu->getKeyStatus();
     keyStatus->clear();
+    keyStatus->setCourseSwitch(cpu->getCourseSwitch());
 
     // The Cassette Vision had a bunch of central controls, rather than
     // per-player pads --- some games would asymmetrically assign most buttons
@@ -307,16 +308,26 @@ static void update_input(void)
            keyStatus->setUp();
        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
            keyStatus->setDown();
-       /*
-       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
-           keyStatus->setCourseSwitch(5);
-       if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-           keyStatus->setCourseSwitch(1);
-       */
+       
+       // Use D-pad Up and Down to control the Course Switch, used for things
+       // like aiming pitching in New Baseball.
+	   // メモ）コーススイッチをデジタルパッドの上下で切り替える
+	   {
+		   u8 courseSwitch = cpu->getCourseSwitch();
+		   if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP)) {
+			   if(courseSwitch < 5) {
+				   courseSwitch++;
+				   cpu->setCourseSwitch(courseSwitch);
+			   }
+		   }
+		   if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN)) {
+			   if(courseSwitch > 1) {
+				   courseSwitch--;
+				   cpu->setCourseSwitch(courseSwitch);
+			   }
+		   }
+	   }
     }
-
-    // TODO (mittonk): Course switch, maybe inc/dec via D-pad Up and D-pad Down
-    // as in standalone Windows version?  Or just cycle with L?
 
     // First controller gets left two paddles, for 1-player analog games.  Also
     // lever switch 1, heavily used in 1-player games and for player 1 of
