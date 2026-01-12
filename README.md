@@ -13,8 +13,14 @@ ROM file handling is currently awkward, but gives some options that work.
 (For a test file, the upstream developer W88DodPECuThLOl has a homebrew Tetris port at
 * https://github.com/W88DodPECuThLOl/PD777supplement/tree/main/sample/NekkoRis/obj )
 
-Most simple button and switch controls are working as in the standalone Windows and WASM builds.  Not yet working:
-1. Light gun not yet supported.
+Most simple button and switch controls are working as in the standalone Windows and WASM builds.
+* 4 Paddle controllers are controlled by Left Analog axes on RetroPads 1 and 2.
+* Lightgun (for Big Sports 12) is controlled by libretro's virtual light gun; this can
+  be controlled by the main system mouse, a touchscreen, or a physical lightgun.
+
+Possible future controls, not yet available:
+* Paddles controlled by mouse or hardware spinner.
+* Lightgun controlled by gamepad analog inputs.
 
 Tested on:
 * Linux x86_64

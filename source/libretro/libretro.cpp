@@ -331,7 +331,7 @@ static void update_input(void)
 
     // First controller gets left two paddles, for 1-player analog games.  Also
     // lever switch 1, heavily used in 1-player games and for player 1 of
-    // 2-player games.
+    // 2-player games.  Also lightgun.
     pad = 0;
     cpu->analogStatus.input_analog_left_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
             RETRO_DEVICE_ID_ANALOG_X);
@@ -343,6 +343,47 @@ static void update_input(void)
         keyStatus->setLeverSwitch1Left();
     if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
         keyStatus->setLeverSwitch1Right();
+
+    // Lightgun, controlled by a mouse / pointer / physical lightgun.
+    {
+        // TODO (mittonk): Tune offsets.
+        /*
+        int crop_overscan_h_left = 15;
+        int crop_overscan_v_top = 0;
+        int offset_x = (crop_overscan_h_left * 0x120) - 1;
+        int offset_y = (crop_overscan_v_top * 0x133) + 1;
+        */
+
+        int offset_x = 0;
+        int offset_y = 0;
+        int offscreen;
+        int offscreen_shot;
+        int trigger;
+        int mousedata[4] = {};
+
+        offscreen = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN );
+        offscreen_shot = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD );
+        trigger = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_TRIGGER );
+
+        if ( offscreen || offscreen_shot )
+        {
+            mousedata[0] = 0;
+            mousedata[1] = 0;
+        }
+        else
+        {
+            int _x = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X );
+            int _y = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y );
+
+            mousedata[0] = (_x + (0x7FFF + offset_x)) * LibretroPD777::WIDTH  / ((0x7FFF + offset_x) * 2);
+            mousedata[1] = (_y + (0x7FFF + offset_y)) * LibretroPD777::HEIGHT  / ((0x7FFF + offset_y) * 2);
+        }
+
+        cpu->gun.gunX = mousedata[0];
+        cpu->gun.gunY = mousedata[1];
+        cpu->gun.fire = (trigger || offscreen_shot);
+
+    }
 
     // Second controller gets right two paddles, for most 2-player analog games.
     // Also lever switch 2.
