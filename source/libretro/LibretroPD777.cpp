@@ -1,5 +1,4 @@
 #include <cstdio>
-#include <format>
 #include <string>
 
 #include "LibretroPD777.h"
