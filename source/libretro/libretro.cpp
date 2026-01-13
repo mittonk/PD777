@@ -7,6 +7,8 @@
 #include <optional>
 #include <regex>
 
+#include "libretro_core_options.h"
+
 #include <stdio.h>
 #if defined(_WIN32) && !defined(_XBOX)
 #include <windows.h>
@@ -205,7 +207,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
 
 void retro_set_environment(retro_environment_t cb)
 {
+    bool option_cats_supported = false;
     environ_cb = cb;
+    libretro_set_core_options(environ_cb,
+            &option_cats_supported);
 
     if (cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging))
         log_cb = logging.log;
@@ -272,7 +277,16 @@ static void update_input(void)
 
 static void check_variables(void)
 {
+   struct retro_variable var = {0};
 
+   var.key = "pd777_announce_course_switch";
+   var.value = NULL;
+   if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
+   {
+      bool announce_course_switch = !strcmp(var.value, "enabled") ? true : false;
+      cpu->announce_course_switch = announce_course_switch;
+      log_cb(RETRO_LOG_INFO, "Key -> Val: %s -> %s.\n", var.key, var.value);
+   }
 }
 
 static void audio_callback(void)
