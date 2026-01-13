@@ -106,7 +106,7 @@ static void fallback_log(enum retro_log_level level, const char *fmt, ...)
 }
 
 
-static retro_environment_t environ_cb;
+retro_environment_t environ_cb;
 
 void initialize()
 {
@@ -185,7 +185,7 @@ retro_video_refresh_t video_cb;
 retro_audio_sample_t audio_cb;
 static retro_audio_sample_batch_t audio_batch_cb;
 static retro_input_poll_t input_poll_cb;
-static retro_input_state_t input_state_cb;
+retro_input_state_t input_state_cb;
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
@@ -266,139 +266,7 @@ void retro_reset(void)
 
 static void update_input(void)
 {
-    /**
-     * K1  K2  K3  K4  K5  K6  K7
-     * ----------------------------------------
-     * STA L1L L1R SEL AUX 6   7    | [A08]
-     * 1   L2L L2R 4   5   6   7    | [A09]
-     * 1   2   3   4   5   P4  P3   | [A10]
-     * 1   2   3   4   5   P2  P1   | [A11]
-     * LL  L   C   R   RR  6   7    | [A12]
-     */
-    KeyStatus *keyStatus = cpu->getKeyStatus();
-    keyStatus->clear();
-    keyStatus->setCourseSwitch(cpu->getCourseSwitch());
-
-    // The Cassette Vision had a bunch of central controls, rather than
-    // per-player pads --- some games would asymmetrically assign most buttons
-    // to Player 2, for example.  The following mapping should allow playing
-    // pretty much all 1-player games with 1 pad, and all 2-player games with
-    // 2 pads.
-    auto NUM_CONTROLLERS = 2;
-    // Both pads get access to most of the simple buttons.
-    unsigned pad = 0;
-    for (pad=0; pad<NUM_CONTROLLERS; pad++) {
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START))
-            keyStatus->setGameStartKey();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT))
-            keyStatus->setGameSelectKey();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R))
-            keyStatus->setAux();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X))
-            keyStatus->setPush1();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B))
-            keyStatus->setPush2();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y))
-            keyStatus->setPush3();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A))
-            keyStatus->setPush4();
-
-        // Up and Down do not exist on the actual device; they get remapped for convenience.
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP))
-            keyStatus->setUp();
-        if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN))
-            keyStatus->setDown();
-
-        // Use D-pad Up and Down to control the Course Switch, used for things
-        // like aiming pitching in New Baseball.
-        // メモ）コーススイッチをデジタルパッドの上下で切り替える
-        {
-            u8 courseSwitch = cpu->getCourseSwitch();
-            if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP)) {
-                if(courseSwitch < 5) {
-                    courseSwitch++;
-                    cpu->setCourseSwitch(courseSwitch);
-                }
-            }
-            if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN)) {
-                if(courseSwitch > 1) {
-                    courseSwitch--;
-                    cpu->setCourseSwitch(courseSwitch);
-                }
-            }
-        }
-    }
-
-    // First controller gets left two paddles, for 1-player analog games.  Also
-    // lever switch 1, heavily used in 1-player games and for player 1 of
-    // 2-player games.  Also lightgun.
-    pad = 0;
-    cpu->analogStatus.input_analog_left_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_X);
-
-    cpu->analogStatus.input_analog_left_y[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_Y);
-
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-        keyStatus->setLeverSwitch1Left();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-        keyStatus->setLeverSwitch1Right();
-
-    // Lightgun, controlled by a mouse / pointer / physical lightgun.
-    {
-        // TODO (mittonk): Tune offsets.
-        /*
-        int crop_overscan_h_left = 15;
-        int crop_overscan_v_top = 0;
-        int offset_x = (crop_overscan_h_left * 0x120) - 1;
-        int offset_y = (crop_overscan_v_top * 0x133) + 1;
-        */
-
-        int offset_x = 0;
-        int offset_y = 0;
-        int offscreen;
-        int offscreen_shot;
-        int trigger;
-        int mousedata[4] = {};
-
-        offscreen = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_IS_OFFSCREEN );
-        offscreen_shot = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_RELOAD );
-        trigger = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_TRIGGER );
-
-        if ( offscreen || offscreen_shot )
-        {
-            mousedata[0] = 0;
-            mousedata[1] = 0;
-        }
-        else
-        {
-            int _x = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_X );
-            int _y = input_state_cb( pad, RETRO_DEVICE_LIGHTGUN, 0, RETRO_DEVICE_ID_LIGHTGUN_SCREEN_Y );
-
-            mousedata[0] = (_x + (0x7FFF + offset_x)) * LibretroPD777::WIDTH  / ((0x7FFF + offset_x) * 2);
-            mousedata[1] = (_y + (0x7FFF + offset_y)) * LibretroPD777::HEIGHT  / ((0x7FFF + offset_y) * 2);
-        }
-
-        cpu->gun.gunX = mousedata[0];
-        cpu->gun.gunY = mousedata[1];
-        cpu->gun.fire = (trigger || offscreen_shot);
-
-    }
-
-    // Second controller gets right two paddles, for most 2-player analog games.
-    // Also lever switch 2.
-    pad = 1;
-    cpu->analogStatus.input_analog_left_x[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_X);
-
-    cpu->analogStatus.input_analog_left_y[pad] = input_state_cb( (pad), RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT,
-            RETRO_DEVICE_ID_ANALOG_Y);
-
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT))
-        keyStatus->setLeverSwitch2Left();
-    if (input_state_cb((pad), RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT))
-        keyStatus->setLeverSwitch2Right();
-
+    cpu->updateKey();
 }
 
 
