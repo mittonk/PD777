@@ -20,6 +20,7 @@
 #define VIDEO_WIDTH 375
 #define VIDEO_HEIGHT 240
 #define VIDEO_PIXELS VIDEO_WIDTH * VIDEO_HEIGHT
+#define RETRO_DEVICE_LIGHTGUN_CASSETTE_VISION RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_LIGHTGUN, 0)
 
 static uint8_t *frame_buf;
 static struct retro_log_callback logging;
@@ -214,6 +215,7 @@ void retro_set_environment(retro_environment_t cb)
 
     static const struct retro_controller_description controllers[] = {
         { "Cassette Vision controller", RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 0) },
+		{ "Cassette Vision lightgun", RETRO_DEVICE_LIGHTGUN_CASSETTE_VISION },
     };
 
     static const struct retro_controller_info ports[] = {
@@ -370,7 +372,6 @@ std::optional<std::vector<u8>> loadBinaryFile(const std::string& filename)
 bool retro_load_game(const struct retro_game_info *info)
 {
     struct retro_input_descriptor desc[] = {
-        // Controller 2 gets Levers Switch 2 left/right, not easy to summarize here.
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "Lever Switch 1 Left" },
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "Course Switch Up" },
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "Course Switch Down" },
@@ -382,10 +383,26 @@ bool retro_load_game(const struct retro_game_info *info)
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,  "Push1" },
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,  "Push3" },
         { 0, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,  "AUX" },
-
-        // Controller 2 gets Paddle 3 and 4, not easy to summarize here.
+        // Paddle assignments are based on Big Sports 12, especially making 2-paddle-as-xy-controls
+        // feel natural on an analog stick.
         { 0, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X, "Paddle 2" },
         { 0, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y, "Paddle 1" },
+
+        // Controller 2 gets Levers Switch 2 left/right and Paddles 3 & 4.
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_LEFT,  "Lever Switch 2 Left" },  // P2
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_UP,    "Course Switch Up" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_DOWN,  "Course Switch Down" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_RIGHT, "Lever Switch 2 Right" },  // P2
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_SELECT, "Select" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_START,  "Start" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_A,  "Push4" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_B,  "Push2" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_X,  "Push1" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_Y,  "Push3" },
+        { 1, RETRO_DEVICE_JOYPAD, 0, RETRO_DEVICE_ID_JOYPAD_R,  "AUX" },
+
+        { 1, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_X, "Paddle 3" },  // P2
+        { 1, RETRO_DEVICE_ANALOG, RETRO_DEVICE_INDEX_ANALOG_LEFT, RETRO_DEVICE_ID_ANALOG_Y, "Paddle 4" },  // P2
 
         { 0 },
     };
