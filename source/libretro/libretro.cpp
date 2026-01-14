@@ -35,7 +35,10 @@ static retro_log_printf_t log_cb;
 static bool use_audio_cb;
 static float last_aspect;
 static float last_sample_rate;
+
+const int PATHSIZE = 4096;
 char retro_base_directory[4096];
+char retro_temp_directory[4096];  // Currently leveraging save dir, as cache dir isn't exposed to core
 char retro_game_path[4096];
 
 /**
@@ -146,6 +149,12 @@ void retro_init(void)
         snprintf(retro_base_directory, sizeof(retro_base_directory), "%s", dir);
     }
 
+    // Currently leveraging save dir, as cache dir isn't exposed to core
+    if (environ_cb(RETRO_ENVIRONMENT_GET_SAVE_DIRECTORY, &dir) && dir)
+    {
+        snprintf(retro_temp_directory, sizeof(retro_temp_directory), "%s", dir);
+    }
+
 }
 
 void terminate()
@@ -218,24 +227,6 @@ void retro_set_environment(retro_environment_t cb)
     environ_cb = cb;
     libretro_set_core_options(environ_cb,
             &option_cats_supported);
-
-    struct retro_vfs_interface_info vfs_iface_info;
-    static const struct retro_system_content_info_override content_overrides[] = {
-        {
-            "bin777|ptn777", /* extensions */
-            true,   /* need_fullpath */
-            false    /* persistent_data */
-        },
-        { NULL, false, false }
-    };
-
-    vfs_iface_info.required_interface_version = 1;
-    vfs_iface_info.iface                      = NULL;
-    if (environ_cb(RETRO_ENVIRONMENT_GET_VFS_INTERFACE, &vfs_iface_info))
-        filestream_vfs_init(&vfs_iface_info);
-
-    environ_cb(RETRO_ENVIRONMENT_SET_CONTENT_INFO_OVERRIDE,
-            (void*)content_overrides);
 
     if (cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging))
         log_cb = logging.log;
@@ -454,18 +445,30 @@ bool retro_load_game(const struct retro_game_info *info)
         return false;
     }
 
-    // TODO (mittonk): Support zip-files containing code and pattern together.
+    // Support zip-files containing code and pattern together.
     std::string bin_path;
     std::string pattern_path;
     if (path_is_compressed_file(info->path)) {
         const int PATHSIZE = 4096;
         char s[PATHSIZE] = {};
 
-        file_archive_extract_file(info->path, "bin777", retro_base_directory, s, PATHSIZE);
+        if (!file_archive_extract_file(info->path, "bin777", retro_temp_directory, s, PATHSIZE)) {
+            struct retro_message message;
+            message.msg = "Could not extract bin777 from ZIP.";
+            message.frames = 60;
+            environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &message);
+        }
         bin_path = s;
-        file_archive_extract_file(info->path, "ptn777", retro_base_directory, s, PATHSIZE);
+        if (!file_archive_extract_file(info->path, "ptn777", retro_temp_directory, s, PATHSIZE)) {
+            struct retro_message message;
+            message.msg = "Could not extract ptn777 from ZIP.";
+            message.frames = 60;
+            environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &message);
+        }
+
         pattern_path = s;
    } else {
+        // Two neighboring files.
         bin_path = info->path;
 
         // Try to load a similarly-named pattern file.
