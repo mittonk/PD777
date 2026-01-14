@@ -122,6 +122,7 @@ class LibretroPD777 : public PD777 {
          * @param[in]   courseSwitch    コーススイッチ（1～5）
          */
         void setCourseSwitch(const u8 courseSwitch) { this->courseSwitch = courseSwitch; }
+        bool announce_course_switch = true;
         void updateKey(void);
         void announceCourseSwitch(const u8 courseSwitch);
 

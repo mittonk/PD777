@@ -213,6 +213,9 @@ void LibretroPD777::updateKey(void) {
 };
 
 void LibretroPD777::announceCourseSwitch(u8 courseSwitch) {
+    if (not announce_course_switch) {
+        return;
+    }
     struct retro_message message;
     char courseMessage[256];
     std::string courseFormatted;
