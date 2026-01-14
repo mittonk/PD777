@@ -15,6 +15,11 @@
 #endif
 #include "libretro.h"
 
+#include <string/stdstring.h>
+#include <file/archive_file.h>
+#include <file/file_path.h>
+#include <streams/file_stream.h>
+
 #include "LibretroPD777.h"
 #include "../core/catLowBasicTypes.h"
 #include "cat/catAudio.h"
@@ -181,7 +186,8 @@ void retro_get_system_info(struct retro_system_info *info)
     info->library_name     = "PD777";
     info->library_version  = "1.00.00";
     info->need_fullpath    = true;
-    info->valid_extensions = "";
+    info->block_extract    = true;
+    info->valid_extensions = "bin777|ptn777";
 }
 
 retro_video_refresh_t video_cb;
@@ -212,6 +218,24 @@ void retro_set_environment(retro_environment_t cb)
     environ_cb = cb;
     libretro_set_core_options(environ_cb,
             &option_cats_supported);
+
+    struct retro_vfs_interface_info vfs_iface_info;
+    static const struct retro_system_content_info_override content_overrides[] = {
+        {
+            "bin777|ptn777", /* extensions */
+            true,   /* need_fullpath */
+            false    /* persistent_data */
+        },
+        { NULL, false, false }
+    };
+
+    vfs_iface_info.required_interface_version = 1;
+    vfs_iface_info.iface                      = NULL;
+    if (environ_cb(RETRO_ENVIRONMENT_GET_VFS_INTERFACE, &vfs_iface_info))
+        filestream_vfs_init(&vfs_iface_info);
+
+    environ_cb(RETRO_ENVIRONMENT_SET_CONTENT_INFO_OVERRIDE,
+            (void*)content_overrides);
 
     if (cb(RETRO_ENVIRONMENT_GET_LOG_INTERFACE, &logging))
         log_cb = logging.log;
@@ -431,10 +455,32 @@ bool retro_load_game(const struct retro_game_info *info)
     }
 
     // TODO (mittonk): Support zip-files containing code and pattern together.
+    std::string bin_path;
+    std::string pattern_path;
+    if (path_is_compressed_file(info->path)) {
+        const int PATHSIZE = 4096;
+        char s[PATHSIZE] = {};
 
-    snprintf(retro_game_path, sizeof(retro_game_path), "%s", info->path);
+        file_archive_extract_file(info->path, "bin777", retro_base_directory, s, PATHSIZE);
+        bin_path = s;
+        file_archive_extract_file(info->path, "ptn777", retro_base_directory, s, PATHSIZE);
+        pattern_path = s;
+   } else {
+        bin_path = info->path;
 
-    std::optional<std::vector<u8>> code_data = loadBinaryFile(info->path);
+        // Try to load a similarly-named pattern file.
+        pattern_path = info->path;
+        std::string toReplace = "bin777";
+        std::string replaceWith = "ptn777";
+        std::size_t pos = pattern_path.find(toReplace);
+        if (pos != std::string::npos) { // Check if the substring was found
+            pattern_path.replace(pos, toReplace.length(), replaceWith);
+        }
+    }
+
+    snprintf(retro_game_path, sizeof(retro_game_path), "%s", bin_path.c_str());
+
+    std::optional<std::vector<u8>> code_data = loadBinaryFile(bin_path);
     if (code_data.has_value())
         setupCode(code_data.value().data(), code_data.value().size());
     else {
@@ -444,14 +490,6 @@ bool retro_load_game(const struct retro_game_info *info)
         environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &message);
     }
 
-    // Try to load a similarly-named pattern file.
-    std::string pattern_path = info->path;
-    std::string toReplace = "bin777";
-    std::string replaceWith = "ptn777";
-    std::size_t pos = pattern_path.find(toReplace);
-    if (pos != std::string::npos) { // Check if the substring was found
-        pattern_path.replace(pos, toReplace.length(), replaceWith);
-    }
     std::optional<std::vector<u8>> pattern_data = loadBinaryFile(pattern_path);
     if (pattern_data.has_value())
         setupPattern(pattern_data.value().data(), pattern_data.value().size());

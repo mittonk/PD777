@@ -1,5 +1,54 @@
-SOURCES_CXX_CORE := $(CORE_DIR)/../core/Decoder.cpp $(CORE_DIR)/../core/Disassembler.cpp $(CORE_DIR)/../core/KeyStatus.cpp $(CORE_DIR)/../core/PD777.cpp $(CORE_DIR)/../core/PD777Config.cpp $(CORE_DIR)/../core/PD777Graphics.cpp $(CORE_DIR)/../core/rom.cpp $(CORE_DIR)/../core/romSetup.cpp $(CORE_DIR)/../core/Stack.cpp
+LIBRETRO_COMM_DIR := $(CORE_DIR)/libretro-common
+
+INCFLAGS = -I$(CORE_DIR) \
+           -I$(LIBRETRO_COMM_DIR)/include \
+
+ifneq (,$(findstring msvc2003,$(platform)))
+   INCFLAGS += -I$(LIBRETRO_COMM_DIR)/include/compat/msvc
+endif
+
+CFLAGS += -DHAVE_ZLIB
+CXXFLAGS += -DHAVE_ZLIB
+LIBS += -lz
+
+SOURCES_CXX_CORE := \
+	$(CORE_DIR)/../core/Decoder.cpp \
+	$(CORE_DIR)/../core/Disassembler.cpp \
+	$(CORE_DIR)/../core/KeyStatus.cpp \
+	$(CORE_DIR)/../core/PD777.cpp \
+	$(CORE_DIR)/../core/PD777Config.cpp \
+	$(CORE_DIR)/../core/PD777Graphics.cpp \
+	$(CORE_DIR)/../core/rom.cpp \
+	$(CORE_DIR)/../core/romSetup.cpp \
+	$(CORE_DIR)/../core/Stack.cpp
 
 SOURCES_CXX_CATLIB := $(CORE_DIR)/cat/catAudio.cpp
 
-SOURCES_CXX := $(CORE_DIR)/libretro.cpp $(CORE_DIR)/LibretroPD777.cpp $(SOURCES_CXX_CORE) $(SOURCES_CXX_CATLIB)
+SOURCES_CXX := \
+	$(CORE_DIR)/libretro.cpp \
+	$(CORE_DIR)/LibretroPD777.cpp \
+	$(SOURCES_CXX_CORE) \
+	$(SOURCES_CXX_CATLIB)
+
+ifneq ($(STATIC_LINKING), 1)
+	SOURCES_C += \
+	   $(LIBRETRO_COMM_DIR)/compat/compat_posix_string.c \
+	   $(LIBRETRO_COMM_DIR)/compat/compat_snprintf.c \
+	   $(LIBRETRO_COMM_DIR)/compat/compat_strcasestr.c \
+	   $(LIBRETRO_COMM_DIR)/compat/compat_strl.c \
+	   $(LIBRETRO_COMM_DIR)/compat/fopen_utf8.c \
+	   $(LIBRETRO_COMM_DIR)/encodings/encoding_crc32.c \
+	   $(LIBRETRO_COMM_DIR)/encodings/encoding_utf.c \
+	   $(LIBRETRO_COMM_DIR)/file/archive_file.c \
+	   $(LIBRETRO_COMM_DIR)/file/archive_file_zlib.c \
+	   $(LIBRETRO_COMM_DIR)/file/config_file.c \
+	   $(LIBRETRO_COMM_DIR)/file/file_path.c \
+	   $(LIBRETRO_COMM_DIR)/file/file_path_io.c \
+	   $(LIBRETRO_COMM_DIR)/file/retro_dirent.c \
+	   $(LIBRETRO_COMM_DIR)/lists/string_list.c \
+	   $(LIBRETRO_COMM_DIR)/streams/file_stream.c \
+	   $(LIBRETRO_COMM_DIR)/streams/file_stream_transforms.c \
+	   $(LIBRETRO_COMM_DIR)/string/stdstring.c \
+	   $(LIBRETRO_COMM_DIR)/time/rtime.c \
+	   $(LIBRETRO_COMM_DIR)/vfs/vfs_implementation.c
+endif

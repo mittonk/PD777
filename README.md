@@ -4,11 +4,12 @@ It is written by 猫大名ねこ猫 (W88DodPECuThLOl) at https://github.com/W88D
 
 This fork adds a libretro interface to run in RetroArch or similar.
 
-ROM file handling is currently awkward, but gives some options that work.
-1. Supply a `.bin777` file to load; the core looks for a similarly-named `.ptn777` file in the same directory.
-2. If that fails, run the content compiled from core/rom.cpp (as in standalone emulator).
-3. Zip-files (bundling `.bin777` and `.ptn777`) are not yet supported, but could be later.
-4. There is not yet a suitable single-file format for the Cassette Vision.
+ROM file handling is slightly awkward because of the two-file ROM format.
+1. Zip-files (bundling one `.bin777` and one `.ptn777`) are supported.
+2. Supply a `.bin777` file to load; the core looks for a similarly-named `.ptn777` file in the same directory.
+
+There is not yet a suitable single-file format for the Cassette Vision.
+If ROM loading fails, the core will run a built-in balloon demo, as in standalone emulator.
 
 (For a test file, the upstream developer W88DodPECuThLOl has a homebrew Tetris port at
 * https://github.com/W88DodPECuThLOl/PD777supplement/tree/main/sample/NekkoRis/obj )
