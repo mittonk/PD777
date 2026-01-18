@@ -1409,9 +1409,9 @@ struct retro_core_options_v2 options_sr = {
 
 #define CATEGORY_INPUT_LABEL_SV "Inmatning"
 #define CATEGORY_INPUT_INFO_0_SV "Konfigurera kärmspecifika inmatningsinställningar."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_SV NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_SV NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_SV NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_SV "Inmatning > Knapp för Annonsera bana"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_SV "Knapp för Annonsera bana"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_SV "Visa nya inställningen för banvalsknapp när den ändras med upp/ner-knappar."
 
 struct retro_core_option_v2_category option_cats_sv[] = {
    {
