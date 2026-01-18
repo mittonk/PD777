@@ -448,18 +448,33 @@ bool retro_load_game(const struct retro_game_info *info)
     // Support zip-files containing code and pattern together.
     std::string bin_path;
     std::string pattern_path;
-    if (path_is_compressed_file(info->path)) {
+    if (path_is_compressed_file(info->path) or path_contains_compressed_file(info->path)) {
+        std::string bin_zip_path = info->path;
+        std::string ptn_zip_path = info->path;
+
+        if path_contains_compressed_file(info->path) {
+            // foobar.zip#game.bin777, likely from a RetroArch playlist.
+            // Find a matching foobar.zip#game.ptn777.
+            std::string toReplace = "bin777";
+            std::string replaceWith = "ptn777";
+            std::size_t pos = ptn_zip_path.find(toReplace);
+            if (pos != std::string::npos) { // Check if the substring was found
+                ptn_zip_path.replace(pos, toReplace.length(), replaceWith);
+            }
+        }
+
+        // foobar.zip, containing a .bin777 and a .ptn777, name doesn't matter.
         const int PATHSIZE = 4096;
         char s[PATHSIZE] = {};
 
-        if (!file_archive_extract_file(info->path, "bin777", retro_temp_directory, s, PATHSIZE)) {
+        if (!file_archive_extract_file(bin_zip_path.c_str(), "bin777", retro_temp_directory, s, PATHSIZE)) {
             struct retro_message message;
             message.msg = "Could not extract bin777 from ZIP.";
             message.frames = 60;
             environ_cb(RETRO_ENVIRONMENT_SET_MESSAGE, &message);
         }
         bin_path = s;
-        if (!file_archive_extract_file(info->path, "ptn777", retro_temp_directory, s, PATHSIZE)) {
+        if (!file_archive_extract_file(ptn_zip_path.c_str(), "ptn777", retro_temp_directory, s, PATHSIZE)) {
             struct retro_message message;
             message.msg = "Could not extract ptn777 from ZIP.";
             message.frames = 60;
@@ -468,7 +483,7 @@ bool retro_load_game(const struct retro_game_info *info)
 
         pattern_path = s;
    } else {
-        // Two neighboring files.
+        // Two neighboring files, game.bin777 and game.ptn777.
         bin_path = info->path;
 
         // Try to load a similarly-named pattern file.
