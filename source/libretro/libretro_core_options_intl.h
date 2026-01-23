@@ -193,9 +193,9 @@ struct retro_core_options_v2 options_bg = {
 
 #define CATEGORY_INPUT_LABEL_CA "Entrada"
 #define CATEGORY_INPUT_INFO_0_CA "Canvia la configuració específica d'aquest nucli."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CA NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CA "Entrada > Anuncia el canvi en l'interruptor COURSE"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CA "Anunci el canvi en l'interruptor COURSE"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CA "Mostra el nou valor de l'interruptor COURSE (selector de nivell) en canviar-ho amb els botons Amunt/Avall."
 
 struct retro_core_option_v2_category option_cats_ca[] = {
    {
@@ -573,9 +573,9 @@ struct retro_core_options_v2 options_eo = {
 
 #define CATEGORY_INPUT_LABEL_ES "Entrada"
 #define CATEGORY_INPUT_INFO_0_ES "Cambia los ajustes específicos de este núcleo."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_ES NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_ES NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_ES NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_ES "Entrada > Anunciar cambio en interruptor COURSE"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_ES "Anunciar cambio en interruptor COURSE"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_ES "Muestra el nuevo ajuste del interruptor COURSE (selección de nivel) al cambiarlo con los botones Arriba/Abajo."
 
 struct retro_core_option_v2_category option_cats_es[] = {
    {
@@ -725,9 +725,9 @@ struct retro_core_options_v2 options_fr = {
 
 #define CATEGORY_INPUT_LABEL_GA "Ionchur"
 #define CATEGORY_INPUT_INFO_0_GA "Cumraigh socruithe ionchuir croí-shonracha."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_GA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GA NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_GA "Ionchur > Fógraigh Athrú Cúrsa"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GA "Fógraigh Athrú Cúrsa"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GA "Taispeáin an socrú nua den Lasc Roghnaithe Cúrsa agus é á athrú leis na cnaipí suas/síos."
 
 struct retro_core_option_v2_category option_cats_ga[] = {
    {
@@ -763,9 +763,9 @@ struct retro_core_options_v2 options_ga = {
 
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
 #define CATEGORY_INPUT_INFO_0_GL "Configurar a entrada específica do núcleo."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_GL NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GL NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GL NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_GL "Entrada > Anunciar selector Nivel"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GL "Anunciar selector Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GL "Amosar a nova configuración do selector de Course ao cambiala cos botóns arriba/abaixo."
 
 struct retro_core_option_v2_category option_cats_gl[] = {
    {
@@ -1029,9 +1029,9 @@ struct retro_core_options_v2 options_ja = {
 
 #define CATEGORY_INPUT_LABEL_KO "입력"
 #define CATEGORY_INPUT_INFO_0_KO "코어별 입력 설정을 구성합니다."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_KO NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_KO NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_KO NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_KO "입력 > 코스 변경 알림"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_KO "코스 변경 알림"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_KO "코스 선택 스위치를 위/아래 버튼으로 조작할 때, 새로운 설정 값을 화면에 표시합니다."
 
 struct retro_core_option_v2_category option_cats_ko[] = {
    {
@@ -1219,9 +1219,9 @@ struct retro_core_options_v2 options_pl = {
 
 #define CATEGORY_INPUT_LABEL_PT_BR "Entrada"
 #define CATEGORY_INPUT_INFO_0_PT_BR "Altera as configurações de entrada específicas do núcleo."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_PT_BR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_PT_BR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_PT_BR NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_PT_BR "Entrada > Notificar interruptor Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_PT_BR "Notificar interruptor Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_PT_BR "Mostra a nova configuração do interruptor Cource ao alterá-lo com os botões para cima/para baixo."
 
 struct retro_core_option_v2_category option_cats_pt_br[] = {
    {
@@ -1599,9 +1599,9 @@ struct retro_core_options_v2 options_val = {
 
 #define CATEGORY_INPUT_LABEL_VN "Đều khiển"
 #define CATEGORY_INPUT_INFO_0_VN "Cấu hình các thiết lập điều khiển riêng cho từng core."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_VN NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_VN NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_VN NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_VN "Điều khiển > Thông báo chuyển Bật/Tắt"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_VN "Thông báo Bật/Tắt"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_VN "Hiển thị thiết lập mới của chọn Bật/Tắt khi thay đổi bằng nút lên/xuống."
 
 struct retro_core_option_v2_category option_cats_vn[] = {
    {
