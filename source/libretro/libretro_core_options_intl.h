@@ -421,9 +421,9 @@ struct retro_core_options_v2 options_da = {
 
 #define CATEGORY_INPUT_LABEL_DE "Eingabe"
 #define CATEGORY_INPUT_INFO_0_DE "Core-spezifische Eingabeeinstellungen konfigurieren."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_DE NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_DE NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_DE NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_DE "Eingabe > Course-Schalter ankündigen"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_DE "Course-Schalter ankündigen"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_DE "Zeigt die neue Einstellung des Course-Auswahlschalters bei Änderung über die Hoch-/Runter-Tasten an."
 
 struct retro_core_option_v2_category option_cats_de[] = {
    {
@@ -687,9 +687,9 @@ struct retro_core_options_v2 options_fi = {
 
 #define CATEGORY_INPUT_LABEL_FR "Entrées"
 #define CATEGORY_INPUT_INFO_0_FR "Configurer les réglages de touches spécifiques au cœur."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_FR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_FR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_FR NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_FR "Entrée > Interrupteur de cours d'annonce"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_FR "Interrupteur de cours d'annonce"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_FR "Afficher le nouveau réglage de l'interrupteur de sélection de course lorsque vous le changez avec les touches haut/bas."
 
 struct retro_core_option_v2_category option_cats_fr[] = {
    {
