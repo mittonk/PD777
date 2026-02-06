@@ -210,7 +210,10 @@ void retro_get_system_av_info(struct retro_system_av_info *info)
     float aspect                = 0.0f;
     float sampling_rate         = 30000.0f;
 
-
+	info->timing = (struct retro_system_timing) {
+      .fps = 60.0,
+         .sample_rate = 0.0,
+    };
     info->geometry.base_width   = VIDEO_WIDTH;
     info->geometry.base_height  = VIDEO_HEIGHT;
     info->geometry.max_width    = VIDEO_WIDTH;
@@ -591,4 +594,5 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
     (void)enabled;
     (void)code;
 }
+
 
