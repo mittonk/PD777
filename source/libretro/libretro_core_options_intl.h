@@ -40,10 +40,10 @@ extern "C" {
 /* RETRO_LANGUAGE_AR */
 
 #define CATEGORY_INPUT_LABEL_AR "أجهزة الادخال"
-#define CATEGORY_INPUT_INFO_0_AR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_AR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_AR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_AR NULL
+#define CATEGORY_INPUT_INFO_0_AR "ضَبِّط إعدادات الإدخال الخاصة بالأساس."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_AR "إدخال > أعلِن مسار Switch"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_AR "أعلِن مسار Switch"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_AR "إظهار الإعداد الجديد لتحديد مسار Switch عند تغييره بأزرار أعلى/أسفل."
 
 struct retro_core_option_v2_category option_cats_ar[] = {
    {
@@ -306,10 +306,10 @@ struct retro_core_options_v2 options_cht = {
 /* RETRO_LANGUAGE_CS */
 
 #define CATEGORY_INPUT_LABEL_CS "Vstup"
-#define CATEGORY_INPUT_INFO_0_CS NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CS NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CS NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CS NULL
+#define CATEGORY_INPUT_INFO_0_CS "Nakonfigurujte nastavení vstupu specifická pro jádro."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CS "Vstup > Přepínač kurzu oznámení"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CS "Přepínač kurzu oznámení"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CS "Zobrazí nové nastavení přepínače výběru kurzu při jeho změně pomocí tlačítek nahoru/dolů."
 
 struct retro_core_option_v2_category option_cats_cs[] = {
    {
