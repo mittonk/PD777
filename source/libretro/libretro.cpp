@@ -546,18 +546,17 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
 
 size_t retro_serialize_size(void)
 {
-    return 1 // PC register
-        + 1024; // RAM
+    return cpu->serialize_size();
 }
 
 bool retro_serialize(void *data_, size_t size)
 {
-    return false;
+    return cpu->serialize(data_, size);
 }
 
 bool retro_unserialize(const void *data_, size_t size)
 {
-    return false;
+    return cpu->unserialize(data_, size);
 }
 
 void *retro_get_memory_data(unsigned id)

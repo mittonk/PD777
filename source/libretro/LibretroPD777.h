@@ -191,4 +191,15 @@ class LibretroPD777 : public PD777 {
          * @return キーマッピング
          */
         KeyMapping* getkeyMapping() noexcept { return &keyMapping; }
+
+        /* libretro savestate (serialize/deserialize) support */
+        /* Amount of space required for a savestate */
+        size_t serialize_size(void);
+
+        /* Save state out to disk */
+        bool serialize(void *data_, size_t size);
+
+        /* Load state in from disk */
+        bool unserialize(const void *data_, size_t size);
+
 };

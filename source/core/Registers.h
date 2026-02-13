@@ -388,6 +388,7 @@ public:
      *              @arg    false: キー入力無効
      * @see KIE
      */
+    inline bool getGPE() const noexcept { return GPE; }
     inline void setKIE(const bool K) noexcept { KIE = K; }
     /**
      * @brief キー入力の有効無効を取得する
