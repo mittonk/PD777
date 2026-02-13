@@ -364,7 +364,7 @@ size_t LibretroPD777::serialize_size(void)
 /* Save state out to disk */
 bool LibretroPD777::serialize(void *data_, size_t size)
 {
-    u16* buffer = static_cast<u16*>(data_);
+    u8* buffer = static_cast<u8*>(data_);
     // Registers
     auto i = 0;
     buffer[i++] = regs.getPC() >> 8 & 0xFF;
@@ -386,7 +386,7 @@ bool LibretroPD777::serialize(void *data_, size_t size)
     buffer[i++] = regs.getMode();
 
     // Line buffer
-    buffer[i++] = regs.lineBufferManager.getCurrentWriteBufferIndex();
+    buffer[i++] = regs.lineBufferManager.currentWriteBufferIndex;
     for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
     {
         buffer[i++] = lineBuffer.currentIndex;
@@ -395,21 +395,58 @@ bool LibretroPD777::serialize(void *data_, size_t size)
             buffer[i++] = lineBuffer.address[j];
         }
     }
+
     // RAM
     for (auto j=0; j<0x80; j++)
     {
         buffer[i++] = ram[j];
     }
+
     return true;
 }
 
 /* Load state in from disk */
 bool LibretroPD777::unserialize(const void *data_, size_t size)
 {
-    const u16* buffer = static_cast<const u16*>(data_);
+    const u8* buffer = static_cast<const u8*>(data_);
+    auto i = 0;
     // Registers
-    regs.setPC(buffer[0]);
+    u8 pc = buffer[i] << 8 | buffer[i+1];
+    i += 2;
+    regs.setPC(pc);
+
+    regs.setSkip(buffer[i++]);
+    regs.setA1(buffer[i++]);
+    regs.setA2(buffer[i++]);
+    regs.setA3(buffer[i++]);
+    regs.setA4(buffer[i++]);
+    regs.setX4(buffer[i++]);
+    regs.setL(buffer[i++]);
+    regs.setH(buffer[i++]);
+    regs.setL_(buffer[i++]);  // TODO (mittonk): special handling?
+    regs.setSTB(buffer[i++]);
+    regs.setDISP(buffer[i++]);
+    regs.setGPE(buffer[i++]);
+    regs.setKIE(buffer[i++]);
+    regs.setSME(buffer[i++]);
+    regs.setMode(buffer[i++]);
+
     // Line buffer
+    regs.lineBufferManager.currentWriteBufferIndex = buffer[i++];
+    for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
+    {
+        lineBuffer.currentIndex = buffer[i++];
+        for (auto j=0; j<12; j++)
+        {
+            lineBuffer.address[j] = buffer[i++];
+        }
+    }
+
     // RAM
+    for (auto j=0; j<0x80; j++)
+    {
+        ram[j] = buffer[i++];
+    }
+
     return true;
 }

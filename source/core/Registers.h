@@ -72,6 +72,7 @@ class LineBufferManager {
     /**
      * @brief   描画用ラインバッファのインデックス(0 or 1)
      */
+public:  // TODO (mittonk): Not public
     u8 currentWriteBufferIndex = 0;
     /**
      * @brief   ラインバッファ
@@ -80,7 +81,6 @@ class LineBufferManager {
      * - どっちがどっちなのかはcurrentWriteBufferIndexで判定
      * @see currentWriteBufferIndex
      */
-public:  // TODO (mittonk): Not public
     LineBufferRegister lineBuffers[2];
 public:
     /**
@@ -135,8 +135,6 @@ public:
         auto& lineBuffer = getRenderLineBuffer();
         lineBuffer.write(H);
     }
-
-    inline u8 getCurrentWriteBufferIndex() const noexcept { return currentWriteBufferIndex; }
 };
 
 
@@ -555,6 +553,7 @@ public:
         STB |= value ? 1 : 0;
         STB &= 0xF;
     }
+    inline void setSTB(const u8 value) noexcept { STB = value; }
     /**
      * @brief   STBレジスタを取得する
      * @return  STBの値
