@@ -377,18 +377,29 @@ bool LibretroPD777::serialize(void *data_, size_t size)
     buffer[i++] = regs.getX4();
     buffer[i++] = regs.getL();
     buffer[i++] = regs.getH();
-    buffer[i++] = regs.getL_();
+    buffer[i++] = regs.getL_();  // TODO (mittonk): special handling?
     buffer[i++] = regs.getSTB();
     buffer[i++] = regs.getDISP();
     buffer[i++] = regs.getGPE();
     buffer[i++] = regs.getKIE();
     buffer[i++] = regs.getSME();
     buffer[i++] = regs.getMode();
-    /*
-        1 + // mode
-    */
+
     // Line buffer
+    buffer[i++] = regs.lineBufferManager.getCurrentWriteBufferIndex();
+    for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
+    {
+        buffer[i++] = lineBuffer.currentIndex;
+        for (auto j=0; j<12; j++)
+        {
+            buffer[i++] = lineBuffer.address[j];
+        }
+    }
     // RAM
+    for (auto j=0; j<0x80; j++)
+    {
+        buffer[i++] = ram[j];
+    }
     return true;
 }
 
