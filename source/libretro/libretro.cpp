@@ -102,9 +102,6 @@ extern "C" {
     void clearKeyStatus();
     void setKeyStatus(const KeyStateIndex keyStateIndex, const u8 value);
     void setKeyMapping(const KeyMappingIndex keyMappingIndex, const u8 value);
-
-    void* memoryAllocate(const s32 size);
-    void memoryFree(u8* ptr);
 } // extern "C"
 
 static void fallback_log(enum retro_log_level level, const char *fmt, ...)
@@ -549,7 +546,8 @@ bool retro_load_game_special(unsigned type, const struct retro_game_info *info, 
 
 size_t retro_serialize_size(void)
 {
-    return 0;
+    return 1 // PC register
+        + 1024; // RAM
 }
 
 bool retro_serialize(void *data_, size_t size)
@@ -560,17 +558,6 @@ bool retro_serialize(void *data_, size_t size)
 bool retro_unserialize(const void *data_, size_t size)
 {
     return false;
-}
-
-void* memoryAllocate(const s32 size)
-{
-    return new u8[size];
-}
-
-
-void memoryFree(u8* ptr)
-{
-    delete[] ptr;
 }
 
 void *retro_get_memory_data(unsigned id)
