@@ -330,3 +330,75 @@ void LibretroPD777::setFRS(const s64 clockCounter, const u8 value, const bool re
     // TODO (mittonk): Audio processor.
     catAudio->writeFRS(value, reverberatedSoundEffect);
 }
+
+/* libretro savestate (serialize/deserialize) support */
+/* Amount of space required for a savestate */
+size_t LibretroPD777::serialize_size(void)
+{
+    // Storage space in bytes.
+    return 
+        // Registers
+        1*2 + // regs.PC
+        1 + // skip
+        4 + // A1--A4
+        1 + // X4
+        3 + // L, H, L_
+        1 + // STB
+        1 + // DISP
+        1 + // GPE
+        1 + // KIE
+        1 + // SME
+        1 + // mode
+
+        // Line buffer
+        1 + // writeBufferIndex
+        2 * (
+            1 + // currentIndex
+            12  // address, MAX_SPRITE_PER_LINE
+        ) + 
+
+        // RAM
+        0x80 ;
+}
+
+/* Save state out to disk */
+bool LibretroPD777::serialize(void *data_, size_t size)
+{
+    u16* buffer = static_cast<u16*>(data_);
+    // Registers
+    auto i = 0;
+    buffer[i++] = regs.getPC() >> 8 & 0xFF;
+    buffer[i++] = regs.getPC() & 0xFF;
+    buffer[i++] = regs.isSkip();
+    buffer[i++] = regs.getA1();
+    buffer[i++] = regs.getA2();
+    buffer[i++] = regs.getA3();
+    buffer[i++] = regs.getA4();
+    buffer[i++] = regs.getX4();
+    buffer[i++] = regs.getL();
+    buffer[i++] = regs.getH();
+    buffer[i++] = regs.getL_();
+    buffer[i++] = regs.getSTB();
+    buffer[i++] = regs.getDISP();
+    buffer[i++] = regs.getGPE();
+    buffer[i++] = regs.getKIE();
+    buffer[i++] = regs.getSME();
+    buffer[i++] = regs.getMode();
+    /*
+        1 + // mode
+    */
+    // Line buffer
+    // RAM
+    return true;
+}
+
+/* Load state in from disk */
+bool LibretroPD777::unserialize(const void *data_, size_t size)
+{
+    const u16* buffer = static_cast<const u16*>(data_);
+    // Registers
+    regs.setPC(buffer[0]);
+    // Line buffer
+    // RAM
+    return true;
+}
