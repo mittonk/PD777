@@ -20,6 +20,7 @@ public:
     static constexpr s32 MAX_SPRITE_PER_LINE = 12;
 
 private:
+public: // TODO (mittonk): Not public
     /**
      * @brief 書き込み位置(0～MAX_SPRITE_PER_LINE-1)
      */
@@ -79,6 +80,7 @@ class LineBufferManager {
      * - どっちがどっちなのかはcurrentWriteBufferIndexで判定
      * @see currentWriteBufferIndex
      */
+public:  // TODO (mittonk): Not public
     LineBufferRegister lineBuffers[2];
 public:
     /**
@@ -133,6 +135,8 @@ public:
         auto& lineBuffer = getRenderLineBuffer();
         lineBuffer.write(H);
     }
+
+    inline u8 getCurrentWriteBufferIndex() const noexcept { return currentWriteBufferIndex; }
 };
 
 
@@ -255,7 +259,9 @@ class Registers {
      * - 12個のスプライトアドレス(5bit)を格納(12個 x 5bit)
      * - 描画用と表示用で2つ
      */
-    LineBufferManager lineBufferManager;
+    public:
+        LineBufferManager lineBufferManager;
+    private:
 
     /**
      * @brief   STBレジスタ(4bit)
