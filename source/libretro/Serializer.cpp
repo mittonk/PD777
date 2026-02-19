@@ -1,8 +1,9 @@
 // Following Stella.
-#include <Serializer.h>
+#include "Serializer.h"
 
 using std::ios;
 using std::ios_base;
+using std::make_unique;
 
 Serializer::Serializer()
   : myStream{make_unique<stringstream>(ios::in | ios::out | ios::binary)}
