@@ -3,6 +3,7 @@
 
 #include "LibretroPD777.h"
 #include "libretro.h"
+#include "Serializer.h"
 
 extern retro_video_refresh_t video_cb;
 extern retro_input_state_t input_state_cb;
@@ -364,43 +365,38 @@ size_t LibretroPD777::serialize_size(void)
 /* Save state out to disk */
 bool LibretroPD777::serialize(void *data_, size_t size)
 {
+    Serializer state;
     u8* buffer = static_cast<u8*>(data_);
     // Registers
     auto i = 0;
-    buffer[i++] = regs.getPC() >> 8 & 0xFF;
-    buffer[i++] = regs.getPC() & 0xFF;
-    buffer[i++] = regs.isSkip();
-    buffer[i++] = regs.getA1();
-    buffer[i++] = regs.getA2();
-    buffer[i++] = regs.getA3();
-    buffer[i++] = regs.getA4();
-    buffer[i++] = regs.getX4();
-    buffer[i++] = regs.getL();
-    buffer[i++] = regs.getH();
-    buffer[i++] = regs.getL_();  // TODO (mittonk): special handling?
-    buffer[i++] = regs.getSTB();
-    buffer[i++] = regs.getDISP();
-    buffer[i++] = regs.getGPE();
-    buffer[i++] = regs.getKIE();
-    buffer[i++] = regs.getSME();
-    buffer[i++] = regs.getMode();
+    // TODO (mittonk): State header with magic number and version
+    state.putShort(regs.getPC());   // TODO (mittonk): Endianness?
+    state.putBool(regs.isSkip());
+    state.putByte(regs.getA1());
+    state.putByte(regs.getA2());
+    state.putByte(regs.getA3());
+    state.putByte(regs.getA4());
+    state.putByte(regs.getX4());
+    state.putByte(regs.getL());
+    state.putByte(regs.getH());
+    state.putByte(regs.getL_());  // TODO (mittonk): special handling?
+    state.putByte(regs.getSTB());
+    state.putByte(regs.getDISP());
+    state.putByte(regs.getGPE());
+    state.putByte(regs.getKIE());
+    state.putByte(regs.getSME());
+    state.putByte(regs.getMode());
 
     // Line buffer
-    buffer[i++] = regs.lineBufferManager.currentWriteBufferIndex;
+    state.putByte(regs.lineBufferManager.currentWriteBufferIndex);
     for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
     {
-        buffer[i++] = lineBuffer.currentIndex;
-        for (auto j=0; j<12; j++)
-        {
-            buffer[i++] = lineBuffer.address[j];
-        }
+        state.putByte(lineBuffer.currentIndex);
+        state.putByteArray(lineBuffer.address, 12); // TODO (mittonk): Constant
     }
 
     // RAM
-    for (auto j=0; j<0x80; j++)
-    {
-        buffer[i++] = ram[j];
-    }
+    state.putByteArray(ram, 0x80);
 
     return true;
 }
