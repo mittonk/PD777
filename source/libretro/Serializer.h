@@ -1,9 +1,13 @@
+// Following Stella.
 #ifndef SERIALIZER_H
 #define SERIALIZER_H
 
 #include <sstream>
 
 #include "../core/catLowBasicTypes.h"
+
+#define PD777_STATE_HEADER "PD777state"
+#define PD777_STATE_VERSION 1
 
 using namespace std;
 

@@ -346,7 +346,13 @@ size_t LibretroPD777::serialize_size(void)
 
 bool LibretroPD777::save_state(Serializer& state)
 {
-    // TODO (mittonk): State header with magic number and version
+    if (!state)
+        return false;
+
+    // State header with magic number and version
+    state.putString(PD777_STATE_HEADER);
+    state.putByte(PD777_STATE_VERSION);
+
     // Registers
     state.putShort(regs.getPC());   // TODO (mittonk): Endianness?
     state.putBool(regs.isSkip());
@@ -370,7 +376,7 @@ bool LibretroPD777::save_state(Serializer& state)
     for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
     {
         state.putByte(lineBuffer.currentIndex);
-        state.putByteArray(lineBuffer.address, 12); // TODO (mittonk): Constant
+        state.putByteArray(lineBuffer.address, lineBuffer.MAX_SPRITE_PER_LINE);
     }
 
     // RAM
@@ -395,7 +401,18 @@ bool LibretroPD777::serialize(void *data_, size_t size)
 
 bool LibretroPD777::load_state(Serializer& state)
 {
-    // TODO (mittonk): State header with magic number and version
+    if (!state)
+        return false;
+
+    // State header with magic number and version
+    if (!state)
+        return false;
+    if (state.getString() != PD777_STATE_HEADER)
+        return false;
+    if (state.getByte() != PD777_STATE_VERSION)
+        // If newer versions are defined, do compatability load here.
+        return false;
+
     // Registers
     regs.setPC(state.getShort());   // TODO (mittonk): Endianness?
     regs.setSkip(state.getBool());
@@ -419,7 +436,7 @@ bool LibretroPD777::load_state(Serializer& state)
     for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
     {
         lineBuffer.currentIndex = state.getByte();
-        state.getByteArray(lineBuffer.address, 12); // TODO (mittonk): Constant
+        state.getByteArray(lineBuffer.address, lineBuffer.MAX_SPRITE_PER_LINE);
     }
 
     // RAM

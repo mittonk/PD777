@@ -1,3 +1,4 @@
+// Following Stella.
 #include <Serializer.h>
 
 using std::ios;
