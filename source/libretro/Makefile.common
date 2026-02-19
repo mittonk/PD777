@@ -27,6 +27,7 @@ SOURCES_CXX_CATLIB := $(CORE_DIR)/cat/catAudio.cpp
 SOURCES_CXX := \
 	$(CORE_DIR)/libretro.cpp \
 	$(CORE_DIR)/LibretroPD777.cpp \
+	$(CORE_DIR)/Serializer.cpp \
 	$(SOURCES_CXX_CORE) \
 	$(SOURCES_CXX_CATLIB)
 
