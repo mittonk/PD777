@@ -3,6 +3,7 @@
 #include "../core/catLowBasicTypes.h"
 #include "../core/PD777.h"
 #include "cat/catAudio.h"
+#include "Serializer.h"
 
 class AnalogStatus {
     public:
@@ -195,6 +196,12 @@ class LibretroPD777 : public PD777 {
         /* libretro savestate (serialize/deserialize) support */
         /* Amount of space required for a savestate */
         size_t serialize_size(void);
+
+        /* Bundle up machine state */
+        bool save_state(Serializer& state);
+
+        /* Restore machine state */
+        bool load_state(Serializer& state);
 
         /* Save state out to disk */
         bool serialize(void *data_, size_t size);

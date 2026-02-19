@@ -336,40 +336,18 @@ void LibretroPD777::setFRS(const s64 clockCounter, const u8 value, const bool re
 /* Amount of space required for a savestate */
 size_t LibretroPD777::serialize_size(void)
 {
-    // Storage space in bytes.
-    return 
-        // Registers
-        1*2 + // regs.PC
-        1 + // skip
-        4 + // A1--A4
-        1 + // X4
-        3 + // L, H, L_
-        1 + // STB
-        1 + // DISP
-        1 + // GPE
-        1 + // KIE
-        1 + // SME
-        1 + // mode
+    Serializer state;
 
-        // Line buffer
-        1 + // writeBufferIndex
-        2 * (
-            1 + // currentIndex
-            12  // address, MAX_SPRITE_PER_LINE
-        ) + 
+    if (!save_state(state))
+        return 0;
 
-        // RAM
-        0x80 ;
+    return state.size();
 }
 
-/* Save state out to disk */
-bool LibretroPD777::serialize(void *data_, size_t size)
+bool LibretroPD777::save_state(Serializer& state)
 {
-    Serializer state;
-    u8* buffer = static_cast<u8*>(data_);
-    // Registers
-    auto i = 0;
     // TODO (mittonk): State header with magic number and version
+    // Registers
     state.putShort(regs.getPC());   // TODO (mittonk): Endianness?
     state.putBool(regs.isSkip());
     state.putByte(regs.getA1());
@@ -401,48 +379,64 @@ bool LibretroPD777::serialize(void *data_, size_t size)
     return true;
 }
 
-/* Load state in from disk */
-bool LibretroPD777::unserialize(const void *data_, size_t size)
+/* Save state out to disk */
+bool LibretroPD777::serialize(void *data_, size_t size)
 {
-    const u8* buffer = static_cast<const u8*>(data_);
-    auto i = 0;
-    // Registers
-    u8 pc = buffer[i] << 8 | buffer[i+1];
-    i += 2;
-    regs.setPC(pc);
+    Serializer state;
+    if (!save_state(state))
+        return false;
 
-    regs.setSkip(buffer[i++]);
-    regs.setA1(buffer[i++]);
-    regs.setA2(buffer[i++]);
-    regs.setA3(buffer[i++]);
-    regs.setA4(buffer[i++]);
-    regs.setX4(buffer[i++]);
-    regs.setL(buffer[i++]);
-    regs.setH(buffer[i++]);
-    regs.setL_(buffer[i++]);  // TODO (mittonk): special handling?
-    regs.setSTB(buffer[i++]);
-    regs.setDISP(buffer[i++]);
-    regs.setGPE(buffer[i++]);
-    regs.setKIE(buffer[i++]);
-    regs.setSME(buffer[i++]);
-    regs.setMode(buffer[i++]);
+    if (state.size() > size)
+        return false;
+
+    state.getByteArray(reinterpret_cast<u8*>(data_), state.size());
+    return true;
+}
+
+bool LibretroPD777::load_state(Serializer& state)
+{
+    // TODO (mittonk): State header with magic number and version
+    // Registers
+    regs.setPC(state.getShort());   // TODO (mittonk): Endianness?
+    regs.setSkip(state.getBool());
+    regs.setA1(state.getByte());
+    regs.setA2(state.getByte());
+    regs.setA3(state.getByte());
+    regs.setA4(state.getByte());
+    regs.setX4(state.getByte());
+    regs.setL(state.getByte());
+    regs.setH(state.getByte());
+    regs.setL_(state.getByte());  // TODO (mittonk): special handling?
+    regs.setSTB(state.getByte());
+    regs.setDISP(state.getByte());
+    regs.setGPE(state.getByte());
+    regs.setKIE(state.getByte());
+    regs.setSME(state.getByte());
+    regs.setMode(state.getByte());
 
     // Line buffer
-    regs.lineBufferManager.currentWriteBufferIndex = buffer[i++];
+    regs.lineBufferManager.currentWriteBufferIndex = state.getByte();
     for(auto& lineBuffer : regs.lineBufferManager.lineBuffers) 
     {
-        lineBuffer.currentIndex = buffer[i++];
-        for (auto j=0; j<12; j++)
-        {
-            lineBuffer.address[j] = buffer[i++];
-        }
+        lineBuffer.currentIndex = state.getByte();
+        state.getByteArray(lineBuffer.address, 12); // TODO (mittonk): Constant
     }
 
     // RAM
-    for (auto j=0; j<0x80; j++)
-    {
-        ram[j] = buffer[i++];
-    }
+    state.getByteArray(ram, 0x80);
+
+    return true;
+}
+
+/* Load state in from disk */
+bool LibretroPD777::unserialize(const void *data_, size_t size)
+{
+    Serializer state;
+
+    state.putByteArray(reinterpret_cast<const u8*>(data_), size);
+
+    if(!load_state(state))
+        return false;
 
     return true;
 }

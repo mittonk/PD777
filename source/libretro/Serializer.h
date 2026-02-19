@@ -1,3 +1,6 @@
+#ifndef SERIALIZER_H
+#define SERIALIZER_H
+
 #include <sstream>
 
 #include "../core/catLowBasicTypes.h"
@@ -123,3 +126,4 @@ class Serializer
     static constexpr u8 TruePattern = 0xfe, FalsePattern = 0x01;
 };
 
+#endif
