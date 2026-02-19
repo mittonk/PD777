@@ -9,7 +9,12 @@
 #define PD777_STATE_HEADER "PD777state"
 #define PD777_STATE_VERSION 1
 
-using namespace std;
+using std::iostream;
+using std::make_unique;
+using std::string;
+using std::string_view;
+using std::stringstream;
+using std::unique_ptr;
 
 class Serializer
 {

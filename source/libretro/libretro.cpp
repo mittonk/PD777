@@ -85,7 +85,7 @@ namespace {
 
 extern "C" {
     void initialize();
-    void pd777_terminate();
+    void terminate();
     void reset();
     /**
      * @brief CPUを実行する
@@ -126,7 +126,7 @@ void initialize()
     catAudio->init();
 
     if(cpu) [[unlikely]] {
-        pd777_terminate();
+        terminate();
     }
     cpu = new LibretroPD777();
     cpu->init();
@@ -154,7 +154,7 @@ void retro_init(void)
 
 }
 
-void pd777_terminate()
+void terminate()
 {
     if(cpu) [[likely]] {
         cpu->term();
@@ -173,7 +173,7 @@ void retro_deinit(void)
     free(frame_buf);
     frame_buf = NULL;
 
-    pd777_terminate();
+    terminate();
 }
 
 unsigned retro_api_version(void)
