@@ -2,6 +2,7 @@
 #ifndef SERIALIZER_H
 #define SERIALIZER_H
 
+#include <memory>
 #include <sstream>
 
 #include "../core/catLowBasicTypes.h"
