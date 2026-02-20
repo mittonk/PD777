@@ -877,9 +877,9 @@ struct retro_core_options_v2 options_hr = {
 
 #define CATEGORY_INPUT_LABEL_HU "Bemenet"
 #define CATEGORY_INPUT_INFO_0_HU "Magspecifikus bemeneti beállítások."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_HU NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_HU NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_HU NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_HU "Bemenet > Pályaválasztó kapcsoló megjelenítése"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_HU "Pályaválasztó kapcsoló megjelenítése"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_HU "A pályaválasztó kapcsoló új állapotának megjelenítése a fel/le gombokkal történő váltás után."
 
 struct retro_core_option_v2_category option_cats_hu[] = {
    {
