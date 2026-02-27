@@ -231,9 +231,9 @@ struct retro_core_options_v2 options_ca = {
 
 #define CATEGORY_INPUT_LABEL_CHS "输入"
 #define CATEGORY_INPUT_INFO_0_CHS "配置核心专属的输入设置。"
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CHS NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CHS NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CHS NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CHS "输入 > 播报难度选择开关"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_CHS "播报难度选择开关"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_CHS "使用上下按钮更改游戏模式（难度选择）开关时，显示新的设置值。"
 
 struct retro_core_option_v2_category option_cats_chs[] = {
    {
@@ -953,9 +953,9 @@ struct retro_core_options_v2 options_id = {
 
 #define CATEGORY_INPUT_LABEL_IT NULL
 #define CATEGORY_INPUT_INFO_0_IT "Configura le impostazioni di input per core."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_IT NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_IT NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_IT NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_IT "Input > Annuncia cambio Interruttore Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_IT "Annuncia cambio Interruttore Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_IT "Mostra la nuova impostazione del selettore del corso quando lo cambia con i pulsanti su/giù."
 
 struct retro_core_option_v2_category option_cats_it[] = {
    {
