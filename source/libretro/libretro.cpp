@@ -192,21 +192,25 @@ retro_input_state_t input_state_cb;
 
 void retro_get_system_av_info(struct retro_system_av_info *info)
 {
-    float aspect                = 0.0f;
-    float sampling_rate         = 30000.0f;
+    /* NTSC precise framerate required for CRT SwitchRes modeline calculation.
+     * Using 60.0 instead of 60.0988 causes unstable sync on real CRT displays. */
+    float fps           = 60.0988f;
+    float sampling_rate = 48000.0f;
 
-	info->timing = (struct retro_system_timing) {
-      .fps = 60.0,
-         .sample_rate = 0.0,
+    info->timing = (struct retro_system_timing) {
+        .fps         = fps,
+        .sample_rate = sampling_rate,
     };
     info->geometry.base_width   = VIDEO_WIDTH;
     info->geometry.base_height  = VIDEO_HEIGHT;
     info->geometry.max_width    = VIDEO_WIDTH;
     info->geometry.max_height   = VIDEO_HEIGHT;
-    info->geometry.aspect_ratio = aspect;
+    /* Cassette Vision outputs a 4:3 display ratio.
+     * aspect_ratio = 0.0f was incorrect and caused image stretching. */
+    info->geometry.aspect_ratio = 4.0f / 3.0f;
 
-    last_aspect                 = aspect;
-    last_sample_rate            = sampling_rate;
+    last_aspect      = info->geometry.aspect_ratio;
+    last_sample_rate = sampling_rate;
 }
 
 void retro_set_environment(retro_environment_t cb)
@@ -538,5 +542,6 @@ void retro_cheat_set(unsigned index, bool enabled, const char *code)
     (void)enabled;
     (void)code;
 }
+
 
 
