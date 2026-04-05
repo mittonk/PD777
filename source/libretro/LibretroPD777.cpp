@@ -37,11 +37,8 @@ void LibretroPD777::present()
         const s32 offsetX = 10 * dotWidth;
         for(int y = 0; y < HEIGHT; y++) {
             for(int x = 0; x < WIDTH; x++) {
-                const auto bgr = frameBuffer[x + offsetX + (y*frameBufferWidth)];
-                const auto r = (bgr >> 16) & 0x0000FF;
-                const auto b = (bgr << 16) & 0xFF0000;
-                const auto g = (bgr      ) & 0x00FF00;
-                const auto argb  = BACKGROUND | r | g | b;
+                const auto rgb = frameBuffer[x + offsetX + (y*frameBufferWidth)];
+                const auto argb  = BACKGROUND | rgb;
                 image[x + y * WIDTH] = argb;
                 //image[x + y * WIDTH] = 0xFF44FF88;
 
