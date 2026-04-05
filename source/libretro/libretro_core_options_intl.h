@@ -1443,6 +1443,44 @@ struct retro_core_options_v2 options_sv = {
    option_defs_sv
 };
 
+/* RETRO_LANGUAGE_TH */
+
+#define CATEGORY_INPUT_LABEL_TH "การควบคุม"
+#define CATEGORY_INPUT_INFO_0_TH "กำหนดค่าปุ่มกดสำหรับ Core นี้โดยเฉพาะ"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_TH "การควบคุม > แจ้งเตือนเมื่อเปลี่ยนรายการที่เลือก"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_TH "แจ้งเตือนเมื่อเปลี่ยนรายการที่เลือก"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_TH "แสดงการตั้งค่าใหม่ เมื่อกดเปลี่ยนด้วยปุ่มขึ้น/ลง"
+
+struct retro_core_option_v2_category option_cats_th[] = {
+   {
+      "input",
+      CATEGORY_INPUT_LABEL_TH,
+      CATEGORY_INPUT_INFO_0_TH
+   },
+   { NULL, NULL, NULL },
+};
+struct retro_core_option_v2_definition option_defs_th[] = {
+   {
+      "pd777_announce_course_switch",
+      PD777_ANNOUNCE_COURSE_SWITCH_LABEL_TH,
+      PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_TH,
+      PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_TH,
+      NULL,
+      "input",
+      {
+         {"disabled", NULL},
+         {"enabled", NULL},
+         {NULL, NULL},
+      },
+      "enabled"
+   },
+   { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL },
+};
+struct retro_core_options_v2 options_th = {
+   option_cats_th,
+   option_defs_th
+};
+
 /* RETRO_LANGUAGE_TR */
 
 #define CATEGORY_INPUT_LABEL_TR "Giriş"
