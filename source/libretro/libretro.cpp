@@ -193,7 +193,7 @@ void retro_get_system_info(struct retro_system_info *info)
 {
     memset(info, 0, sizeof(*info));
     info->library_name     = "PD777";
-    info->library_version  = "1.00.00";
+    info->library_version  = "1.01.01";
     info->need_fullpath    = true;
     info->block_extract    = true;
     info->valid_extensions = "bin777|ptn777";

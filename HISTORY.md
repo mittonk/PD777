@@ -1,5 +1,15 @@
 # 更新履歴
 
+## ver1.01.01
+libretro
+* fix frequency video (Akkeoss)
+* fix(core): fix CRT SwitchRes (Akkeoss)
+* Fixed incorrect colors (aizaki77)
+
+## ver1.01.00
+libretro
+* libretro interface (mittonk)
+
 ## ver1.00.00
 
 コア
