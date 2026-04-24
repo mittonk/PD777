@@ -837,11 +837,11 @@ struct retro_core_options_v2 options_he = {
 
 /* RETRO_LANGUAGE_HR */
 
-#define CATEGORY_INPUT_LABEL_HR NULL
-#define CATEGORY_INPUT_INFO_0_HR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_HR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_HR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_HR NULL
+#define CATEGORY_INPUT_LABEL_HR "Unos"
+#define CATEGORY_INPUT_INFO_0_HR "Konfigurirajte postavke unosa specifične za jezgru."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_HR "Unos > Najavi promjenu smjera"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_HR "Najavi promjenu smjera"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_HR "Prikaži novu postavku prekidača za odabir smjera prilikom promjene tipkama gore/dolje."
 
 struct retro_core_option_v2_category option_cats_hr[] = {
    {
