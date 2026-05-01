@@ -1332,10 +1332,10 @@ struct retro_core_options_v2 options_ru = {
 /* RETRO_LANGUAGE_SK */
 
 #define CATEGORY_INPUT_LABEL_SK "Vstup"
-#define CATEGORY_INPUT_INFO_0_SK NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_SK NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_SK NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_SK NULL
+#define CATEGORY_INPUT_INFO_0_SK "Nakonfigurujte nastavenie vstupu špecifické pre jadro."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_SK "Vstup > Prepínač kurzu oznámenia"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_SK "Prepínač kurzu oznámenia"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_SK "Zobrazí nové nastavenie prepínača výberu kurzu pri jeho zmene pomocou tlačidiel hore/dolu."
 
 struct retro_core_option_v2_category option_cats_sk[] = {
    {
