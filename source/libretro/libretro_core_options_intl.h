@@ -990,10 +990,10 @@ struct retro_core_options_v2 options_it = {
 /* RETRO_LANGUAGE_JA */
 
 #define CATEGORY_INPUT_LABEL_JA "入力"
-#define CATEGORY_INPUT_INFO_0_JA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_JA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_JA NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_JA NULL
+#define CATEGORY_INPUT_INFO_0_JA "コア固有の入力設定を構成します。"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_JA "入力 > アナウンスコーススイッチ"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_JA "アナウンスコーススイッチ"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_JA "上/下ボタンでコース選択スイッチを変更した際に、新しい設定を表示します。"
 
 struct retro_core_option_v2_category option_cats_ja[] = {
    {
@@ -1485,9 +1485,9 @@ struct retro_core_options_v2 options_th = {
 
 #define CATEGORY_INPUT_LABEL_TR "Giriş"
 #define CATEGORY_INPUT_INFO_0_TR "Çekirdeğe özgü giriş ayarlarını yapılandırın."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_TR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_TR NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_TR NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_TR "Giriş > Kurs Değişikliğini Duyur"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_TR "Kurs Değişikliğini Duyur"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_TR "Yukarı/aşağı düğmeleriyle Kurs Seçme Anahtarını değiştirdiğinizde yeni ayarı gösterin."
 
 struct retro_core_option_v2_category option_cats_tr[] = {
    {
