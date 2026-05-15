@@ -1295,9 +1295,9 @@ struct retro_core_options_v2 options_pt_pt = {
 
 #define CATEGORY_INPUT_LABEL_RU "Устройства ввода"
 #define CATEGORY_INPUT_INFO_0_RU "Настройки ввода для ядра."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_RU NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_RU NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_RU NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_RU "Ввод > Объявить о переключении курса"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_RU "Объявить о переключении курса"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_RU "Показывать новые настройки переключателя выбора курса при его смене кнопками вверх/вниз."
 
 struct retro_core_option_v2_category option_cats_ru[] = {
    {
