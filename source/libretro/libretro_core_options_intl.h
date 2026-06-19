@@ -533,7 +533,7 @@ struct retro_core_options_v2 options_en = {
 
 /* RETRO_LANGUAGE_EO */
 
-#define CATEGORY_INPUT_LABEL_EO "Eniga pelilo"
+#define CATEGORY_INPUT_LABEL_EO "Enigo"
 #define CATEGORY_INPUT_INFO_0_EO NULL
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_EO NULL
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_EO NULL
@@ -1180,10 +1180,10 @@ struct retro_core_options_v2 options_or = {
 /* RETRO_LANGUAGE_PL */
 
 #define CATEGORY_INPUT_LABEL_PL "Wejście"
-#define CATEGORY_INPUT_INFO_0_PL NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_PL NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_PL NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_PL NULL
+#define CATEGORY_INPUT_INFO_0_PL "Skonfiguruj ustawienia wejściowe specyficzne dla rdzenia."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_PL "Wejście > Ogłoś przełącznie kursu"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_PL "Ogłoś przełącznie kursu"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_PL "Pokaż nowe ustawienie przełącznika zmiany kursu podczas zmieniania go przyciskami góra/dół."
 
 struct retro_core_option_v2_category option_cats_pl[] = {
    {
