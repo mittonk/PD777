@@ -764,8 +764,8 @@ struct retro_core_options_v2 options_ga = {
 #define CATEGORY_INPUT_LABEL_GL "Entrada"
 #define CATEGORY_INPUT_INFO_0_GL "Configurar a entrada específica do núcleo."
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_GL "Entrada > Anunciar selector Nivel"
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GL "Anunciar selector Course"
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GL "Amosar a nova configuración do selector de Course ao cambiala cos botóns arriba/abaixo."
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_GL "Anunciar selector Nivel"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_GL "Amosar a nova configuración do selector de nivel ao cambiala cos botóns arriba/abaixo."
 
 struct retro_core_option_v2_category option_cats_gl[] = {
    {
@@ -1293,7 +1293,7 @@ struct retro_core_options_v2 options_pt_pt = {
 
 /* RETRO_LANGUAGE_RU */
 
-#define CATEGORY_INPUT_LABEL_RU "Устройства ввода"
+#define CATEGORY_INPUT_LABEL_RU "Управление"
 #define CATEGORY_INPUT_INFO_0_RU "Настройки ввода для ядра."
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_RU "Ввод > Объявить о переключении курса"
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_RU "Объявить о переключении курса"
