@@ -534,7 +534,7 @@ struct retro_core_options_v2 options_en = {
 /* RETRO_LANGUAGE_EO */
 
 #define CATEGORY_INPUT_LABEL_EO "Enigo"
-#define CATEGORY_INPUT_INFO_0_EO NULL
+#define CATEGORY_INPUT_INFO_0_EO "Konfiguri enigajn agordojn specifajn de kerno."
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_EO NULL
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_EO NULL
 #define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_EO NULL
