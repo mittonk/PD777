@@ -535,9 +535,9 @@ struct retro_core_options_v2 options_en = {
 
 #define CATEGORY_INPUT_LABEL_EO "Enigo"
 #define CATEGORY_INPUT_INFO_0_EO "Konfiguri enigajn agordojn specifajn de kerno."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_EO NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_EO NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_EO NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_EO "Enigo > Anonci ŝanĝon de ŝaltilo Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_EO "Anonci ŝanĝon de ŝaltilo Course"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_EO "Montri la novan agordon de la ŝaltilo Course (elekti nivelon) kiam ŝanĝante ĝin per butonoj (mal)supren."
 
 struct retro_core_option_v2_category option_cats_eo[] = {
    {
