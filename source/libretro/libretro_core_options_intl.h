@@ -1561,9 +1561,9 @@ struct retro_core_options_v2 options_tt = {
 
 #define CATEGORY_INPUT_LABEL_UK "Керування"
 #define CATEGORY_INPUT_INFO_0_UK "Налаштування параметрів введення."
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_UK NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_UK NULL
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_UK NULL
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_UK "Введення > Оголосити перемикач курсу"
+#define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_UK "Оголосити перемикач курсу"
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_UK "Відображати нове налаштування перемикача вибору курсу під час його зміни кнопками вгору/вниз."
 
 struct retro_core_option_v2_category option_cats_uk[] = {
    {
