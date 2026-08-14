@@ -1636,10 +1636,10 @@ struct retro_core_options_v2 options_val = {
 /* RETRO_LANGUAGE_VN */
 
 #define CATEGORY_INPUT_LABEL_VN "Đều khiển"
-#define CATEGORY_INPUT_INFO_0_VN "Cấu hình các thiết lập điều khiển riêng cho từng core."
+#define CATEGORY_INPUT_INFO_0_VN "Cấu hình các thiết lập điều khiển riêng cho từng Trình giả lập."
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_VN "Điều khiển > Thông báo chuyển Bật/Tắt"
 #define PD777_ANNOUNCE_COURSE_SWITCH_LABEL_CAT_VN "Thông báo Bật/Tắt"
-#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_VN "Hiển thị thiết lập mới của chọn Bật/Tắt khi thay đổi bằng nút lên/xuống."
+#define PD777_ANNOUNCE_COURSE_SWITCH_INFO_0_VN "Hiển thị thiết lập mới của chọn Bật/Tắt khi thay đổi bằng Phím Lên/Xuống."
 
 struct retro_core_option_v2_category option_cats_vn[] = {
    {
